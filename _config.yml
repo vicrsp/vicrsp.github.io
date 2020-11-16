@@ -1,21 +1,8 @@
 theme: jekyll-theme-slate
 
 # Name of website
-title: Victor Ruela - Portfolio
+title: Victor Ruela
 
-description: Hello! This website showcases my main projects and interests, hope you like it :)
+description: Hello! This website showcases my main projects and interests, hope you like it :smile:
 
-# Your name to show in the footer
-author: Victor Ruela
 
-# Select the social network links that you want to show in the footer.
-# Uncomment the links you want to show and add your information to each one.
-social-network-links:
-  email: "someone@example.com"
-  github: vicrsp
-  linkedin: victorspruela
-  google-scholar: https://scholar.google.com/citations?user=ir5wq1kAAAAJ&hl=en
-  
-# Select which social network share links to show in posts
-share-links-active:
-  linkedin: true
