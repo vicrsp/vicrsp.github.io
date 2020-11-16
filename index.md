@@ -2,7 +2,7 @@
 
 Under construction...
 
-### Projects
+## Projects
 Checkout some of my projects!
 
 1. [Computação Evolucionária 2020/1 - PPGEE](https://github.com/vicrsp/ce-ppgee)
