@@ -4,6 +4,9 @@ I am a Control and Automation Engineer graduated at UFMG, with Data Science spec
 
 Solid skills in Python, C#, Web development, SQL, C++, operations research, mixed integer programming, non-linear optimization and machine learning. 
 
+### Contact information
+- LinkedIn: [https://www.linkedin.com/in/victorspruela/](https://www.linkedin.com/in/victorspruela/)
+- E-mail: victorspruela@ufmg.br
 
 ## Projects
 Checkout some of my projects!
