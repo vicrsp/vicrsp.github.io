@@ -13,7 +13,5 @@ Checkout some of my projects!
 ## Contact information
 - LinkedIn: [https://www.linkedin.com/in/victorspruela/](https://www.linkedin.com/in/victorspruela/)
 - E-mail: [victorspruela@ufmg.br](mailto:victorspruela@ufmg.br)
-- Github: [https://github.com/vicrsp/](https://github.com/vicrsp/)
-
 
 
