@@ -3,8 +3,4 @@ theme: jekyll-theme-slate
 # Name of website
 title: Victor Ruela
 
-description: Hello! This website showcases my main projects and interests, hope you like it :smile:
-
-plugins:
-  - jemoji
-
+description: Hello! This website showcases my main projects and interests, hope you like it :)
