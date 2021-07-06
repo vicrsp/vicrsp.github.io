@@ -17,8 +17,8 @@ Checkout some of my projects!
 Investigation of Initial Data and Optimizer in Real-Time Optimization Performance	via Modifier Adaptation with Gaussian Processes
 * Manuscript: TBD
 * Source Code: 
-  *  Notebook: https://vicrsp.github.io/notebooks/ccta2021
-  *  Source: https://github.com/vicrsp/rto
+  *  Notebook: [https://vicrsp.github.io/notebooks/ccta2021](https://vicrsp.github.io/notebooks/ccta2021)
+  *  Source: [https://github.com/vicrsp/rto](https://github.com/vicrsp/rto)
 
 
 ## Contact information
