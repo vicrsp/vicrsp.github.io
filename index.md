@@ -11,6 +11,15 @@ Checkout some of my projects!
 4. [Real-time optimization (Master's thesis) - PPGEE](https://github.com/vicrsp/rto)
 5. [VSB Power Line Fault Detection - Kaggle](https://github.com/vicrsp/mlen-capstone-udacity)
 
+## Publications
+
+### [2021 Conference on Control and Automation Technology - CCTA](https://ccta2021.ieeecss.org/)
+Investigation of Initial Data and Optimizer in Real-Time Optimization Performance	via Modifier Adaptation with Gaussian Processes
+* Manuscript: TBD
+* Source Code: 
+  *  Notebook: https://vicrsp.github.io/notebooks/ccta2021
+  *  Source: https://github.com/vicrsp/rto
+
 
 ## Contact information
 - LinkedIn: [https://www.linkedin.com/in/victorspruela/](https://www.linkedin.com/in/victorspruela/)
