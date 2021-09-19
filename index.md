@@ -12,7 +12,8 @@ Checkout some of my projects!
 5. [VSB Power Line Fault Detection - Kaggle](https://github.com/vicrsp/mlen-capstone-udacity)
 
 ## Notebooks
-* [Real-Time Optimization Tutorial](https://vicrsp.github.io/notebooks/magp-wo-analysis-01)
+* [Real-Time Optimization Tutorial](https://vicrsp.github.io/notebooks/magp-wo-analysis-01.html)
+* [Modifier Adaptation as a Contrained Bayesian Optimization problem](https://vicrsp.github.io/notebooks/magp-eic-wo-analysis-01.html)
 
 
 ## Publications
