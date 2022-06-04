@@ -1,6 +1,6 @@
 ## About me
 
-I am a Control and Automation Engineer graduated at UFMG with Data Science specialization, with a Master’s degree in optimization at UFMG ([PPGEE](https://www.ppgee.ufmg.br/)). With 5+ years of experience in Industrial IT in the steelmaking and mining industries, I have practical experience with machine learning, optimization and software engineering/architecture applied to industrial problems. Solid skills in Python, C#, Web development (HTML/CSS/React/Typescript), SQL, operations research, mixed integer programming, non-linear optimization and machine learning. 
+I am a Control and Automation Engineer who graduated from UFMG with a Data Science specialization and a Master’s degree in optimization at UFMG ([PPGEE](https://www.ppgee.ufmg.br/)). With 5+ years of experience in Industrial IT in the steelmaking and mining industries, I have practical experience with machine learning, optimization, and software engineering/architecture applied to industrial problems. Solid skills in Python, C#, Web development (HTML/CSS/React/Typescript), SQL, operations research, mixed integer programming, non-linear optimization, and machine learning. 
 
 ## Projects
 Checkout some of my projects!
