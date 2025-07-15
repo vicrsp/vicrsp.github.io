@@ -3,7 +3,7 @@ theme: jekyll-theme-minimal
 # Name of website
 title: Victor Ruela
 
-description: "Hello! This website showcases my main projects and interests, hope you like it :) \n Contact me at: victorspruela@gmail.com"
+description: "Hello! This website showcases my main projects and interests, hope you like it :) \n\n [Contact me](mailto:victorspruela@gmail.com)"
 
 logo: profile_pic.jpg
 
