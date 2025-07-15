@@ -56,7 +56,10 @@ Advanced analytics for sustainable steel ladle logistics
 
 
 ## Certificates
-
+* [Machine Learning Engineer Nanodegree (2019)](https://www.udacity.com/certificate/2RDH79H6)
+* [Agile Development with Design Patterns (2017)](https://www.coursera.org/account/accomplishments/verify/ND59GQC2Y32L)
+* [Principles of Agile Software Development (2017)](https://www.coursera.org/account/accomplishments/verify/WFYSYCYV5CNG)
+* [Agile Development with Advanced Java (2017)](https://www.coursera.org/account/accomplishments/certificate/P9WFX662GTNT)
 
 ## Contact information
 - LinkedIn: [https://www.linkedin.com/in/victorspruela/](https://www.linkedin.com/in/victorspruela/)
