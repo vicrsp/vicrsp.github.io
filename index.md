@@ -63,6 +63,6 @@ Advanced analytics for sustainable steel ladle logistics
 
 ## Contact information
 - LinkedIn: [https://www.linkedin.com/in/victorspruela/](https://www.linkedin.com/in/victorspruela/)
-- E-mail: [victorspruela@ufmg.br](mailto:victorspruela@ufmg.br)
+- E-mail: [victorspruela@gmail.com](mailto:victorspruela@gmail.com)
 
 
