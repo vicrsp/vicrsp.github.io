@@ -1,6 +1,6 @@
 ## About me
 
-I am a Control and Automation Engineer who graduated from UFMG. I have a Data Science specialization, a Master’s degree in optimization at UFMG ([PPGEE](https://www.ppgee.ufmg.br/)) and I am currently  pursuing my doctoral degree at TU Wien ([Institute for Energy Systems and Thermodynamics ](https://www.tuwien.at/mwbw/iet)) as part of the MSCA Doctoral Network [CESAREF](https://www.cesaref.eu). My research focuses in how optimization and machine learning can be combined to make industrial processes energy-efficient and sustainable.  
+I am a seasoned Control and Automation Engineer with a Ph.D. from TU Wien. I have a Data Science specialization, a Master’s degree in optimization at UFMG (2021) ([PPGEE](https://www.ppgee.ufmg.br/)) and completed my doctoral degree in 2026 at TU Wien ([Institute for Energy Systems and Thermodynamics ](https://www.tuwien.at/mwbw/iet)) as part of the MSCA Doctoral Network [CESAREF](https://www.cesaref.eu). My research focuses in how optimization and machine learning can be combined to make industrial processes energy-efficient and sustainable.  
 
 With 10 years of experience in Industrial IT and Data Science, I have practical experience with machine learning, optimization, and software engineering/architecture applied to the steel and mining industries. Solid skills in Python, C#, Web development (HTML/CSS/React/Typescript), SQL, operations research, mixed integer linear programming (MILP), non-linear optimization, and machine learning. Strong presentation, communication
 and project management skills.
@@ -32,6 +32,7 @@ Checkout some of my projects!
 
 2. V. Ruela, P. Van Beurden, B. Luchini, R. Hofmann, and F. Birkelbach, “Optimizing the Steel Ladle Thermal Management: Toward a Sustainable and Cost‐Effective Ladle Fleet Logistics,” steel research int., vol. 96, no. 2, p. 2400616, Feb. 2025, doi: [10.1002/srin.202400616](https://doi.org/10.1002/srin.202400616).
 
+3. V. Ruela, P. Van Beurden, F. Birkelbach, and R. Hofmann. “Maintenance scheduling optimisation for sustainable steel ladle fleet operations,” International Journal of Production Research, 64(4), pp. 1249–1268, 2025, doi: [10.1080/00207543.2025.2568172](https://doi.org/10.1080/00207543.2025.2568172).
 
 ### Conferences
 #### [2021 Conference on Control and Automation Technology - CCTA (Online)](https://ccta2021.ieeecss.org/)
