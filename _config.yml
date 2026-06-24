@@ -1,9 +1,35 @@
-theme: jekyll-theme-minimal
+title: "Victor's Blog"
+author: "Victor Ruela"
+description: "Senior Data Scientist, Ph.D from TU Wien" # This will show up in places like twitter, linkedin, etc, if you share your sites url as a post.
 
-# Name of website
-title: Victor Ruela
+# Email / Social media user names used by the minima theme:
+# All of these are optional and can be removed or commented out
+email: "victorspruela@gmail.com"
+github_username: "vicrsp"
+linkedin_username: "victorspruela"
 
-description: "Hello! This website showcases my main projects and interests, hope you like it :)"
+#########################################################################################
+######### Nothing below needs to be changed (unless you know what you're doing) #########
+#########################################################################################
+theme: "minima"
 
-logo: profile_pic.jpg
+rss: rss
 
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
+    
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+titles_from_headings:
+  strip_title: true
+  collections: true
+
+defaults:
+  - scope:
+      path: ""
+      type: post
+    values:
+      tags: Other
