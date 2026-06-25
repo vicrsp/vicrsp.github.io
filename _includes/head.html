@@ -29,6 +29,8 @@
   <script type="text/javascript" src="/js/highlightjs/languages/plaintext.min.js"></script>
   <script type="text/javascript" src="/js/highlightjs/languages/powershell.min.js"></script>
   <script type="text/javascript" src="/js/highlightjs/languages/tsql.min.js"></script>
+  <script type="text/javascript" src="/js/highlightjs/languages/python.min.js"></script>
+  
 
   <script type="text/javascript"> hljs.highlightAll(); </script>
   <!-- end highlight.js support -->
@@ -37,4 +39,7 @@
   {% if page.mermaid %}
   {% include mermaid.html %}
   {% endif %}
+
+  <!-- Latex -->
+   <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
