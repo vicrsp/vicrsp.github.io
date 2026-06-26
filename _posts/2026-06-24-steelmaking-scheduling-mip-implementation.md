@@ -166,13 +166,17 @@ Of course, this is one approach and I am pretty sure there are more efficient on
 
 ### Validation
 
-I usually can implement an initial version of the model very fast -- specially with the aid of AI coding assitants. However, the difficult part is 
+I usually can implement an initial version of the model very fast -- specially with AI coding assitants. However, it is often wrong or infeasible. Hence, I usually start with a small instance, usually based on information present on the manuscript validation. For scheduling problems, I find Gantt charts especially useful for validation model outputs. An example is displayed below, considering a small scenario with 2 casts, 10 heats, 3 stages and 2 machines per stage. It is possible to see that the stages are in order, casts are continuous, and that waiting and transportation times are also consistent. From the results, it is possible to confirm that the implementation is correct.
 
 <img src="{{site.baseurl}}/assets/img/2026-06-24-gantt_chart_validation.png">
 
+I also xperimented with unit testing the model implementation, which is something that had been on my wind for some time. However, it became evident quite early that comprehensive testing (especially for asserting mathematical expressions) would require much more effort than what I wanted. Therefore, I kept it simple: I only ensured that the correct number of variables and constraints were added to the model. This doesn't guarantee that the outputs are correct, but allows to quickly catch basic modeling mistakes. Ideally, the next step was to ensure that all the equations were correct (objectives and constraints) after initializing the model with a valid solution. I think unit testing optimization mdoels is a very interesting topic on its own, maybe I will dig more into this later.
+
 ### Results
 
-It is not my goal to benchmark the model performance, but I wanted to check the difference in the instances difficulty as the size grows.
+It is not my goal to benchmark the model performance, but I wanted to check how well open-source solvers scale with the size of the instance. 
+
+One thing I noticed right away is how quickly the model becomes untractable. For example, adding one cast can substantially increase the solution time. This is also followed by a significant difficulty to prove optimality -- sometimes the solver 
 
 
 ### Conclusions
