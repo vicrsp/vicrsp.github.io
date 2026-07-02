@@ -6,7 +6,7 @@ mermaid: true
 
 ## Introduction
 
-A tricky aspect within the field operations research is reproducing the work of other researchers. One of the biggest problems is that the source code and data are rarely provided (I am part of this -- but for reasons beyond my control). It is a good learning opporttunity, but demands significant effort.
+A tricky aspect within the field operations research is reproducing the work of other researchers. One of the biggest problems is that the source code is rarely provided (I am part of this -- but for confidentiality reasons beyond my control). It is a good learning opporttunity, but demands significant effort.
 
 To explore this, I will consider a recent paper from steelmaking-continuous-casting (SCC) literature:
 
@@ -82,7 +82,7 @@ A particularity of the SCC scheduling problem is that heats in a cast must be pr
 
 ### Implementation
 
-Papers tipically start defining a mathematical description of the problem: sets, parameters, decision variables, constraints and objectives. Implementation is usually straightforward from description using any modeling language. I personally became quite comfortable with `pyomo`, since it does not bind me to a specific solver interface. Of course, it adds an overhead each time an instance is created and miss some advanced features usually available in the solver's native interface. 
+Papers tipically start defining a mathematical description of the problem: sets, parameters, decision variables, constraints and objectives. Implementation is usually straightforward from description using any modeling language. I personally became quite comfortable with `pyomo`, since it does not bind me to a specific solver interface. Of course, it adds an overhead each time an instance is built and miss some advanced features available in the solver's native interface. 
 
 In the following sub-sections I share some insights gathered during the implementation. 
 
@@ -166,17 +166,135 @@ Of course, this is one approach and I am pretty sure there are more efficient on
 
 ### Validation
 
-I usually can implement an initial version of the model very fast -- specially with AI coding assitants. However, it is often wrong or infeasible. Hence, I usually start with a small instance, usually based on information present on the manuscript validation. For scheduling problems, I find Gantt charts especially useful for validation model outputs. An example is displayed below, considering a small scenario with 2 casts, 10 heats, 3 stages and 2 machines per stage. It is possible to see that the stages are in order, casts are continuous, and that waiting and transportation times are also consistent. From the results, it is possible to confirm that the implementation is correct.
+I usually can implement an initial version of the model very fast -- specially with AI coding assitants. However, it is often wrong or infeasible. Hence, I start with a small valid instance based on information present on the manuscript for validation. For scheduling problems, I find Gantt charts especially useful for validation model outputs. An example is displayed below, considering a small scenario with 2 casts, 10 heats, 3 stages and 2 machines per stage. It is possible to see that the stages are in order, casts are continuous, and that waiting and transportation times are also consistent. From the results, it is possible to confirm that the implementation is correct.
 
-<img src="{{site.baseurl}}/assets/img/2026-06-24-gantt_chart_validation.png">
+<img src="{{site.baseurl}}/assets/img/post1/gantt_chart_validation.png">
 
 I also xperimented with unit testing the model implementation, which is something that had been on my wind for some time. However, it became evident quite early that comprehensive testing (especially for asserting mathematical expressions) would require much more effort than what I wanted. Therefore, I kept it simple: I only ensured that the correct number of variables and constraints were added to the model. This doesn't guarantee that the outputs are correct, but allows to quickly catch basic modeling mistakes. Ideally, the next step was to ensure that all the equations were correct (objectives and constraints) after initializing the model with a valid solution. I think unit testing optimization mdoels is a very interesting topic on its own, maybe I will dig more into this later.
 
 ### Results
 
-It is not my goal to benchmark the model performance, but I wanted to check how well open-source solvers scale with the size of the instance. 
+It is not my goal to benchmark the model performance, but I wanted to check how well open-source solvers scale with the size of the instance. Considering the same plant configuration used above, artificial instances were generated based on the parameters used by the authors of the paper. 
 
-One thing I noticed right away is how quickly the model becomes untractable. For example, adding one cast can substantially increase the solution time. This is also followed by a significant difficulty to prove optimality -- sometimes the solver 
+<table>
+  <thead>
+    <tr>
+      <th colspan="2" style="text-align: center;">Problem Instance</th>
+      <th colspan="2" style="text-align: center;">HiGHS</th>
+      <th colspan="2" style="text-align: center;">SCIP</th>
+    </tr>
+    <tr>
+      <th style="text-align: center;">Casts</th>
+      <th style="text-align: center;">Heats</th>
+      <th style="text-align: center;">Time (s)</th>
+      <th style="text-align: center;">Obj Value</th>
+      <th style="text-align: center;">Time (s)</th>
+      <th style="text-align: center;">Obj Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">3</td>
+      <td align="center">0.05</td>
+      <td align="center">225.0</td>
+      <td align="center">0.13</td>
+      <td align="center">225.0</td>
+    </tr>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">4</td>
+      <td align="center">0.13</td>
+      <td align="center">240.0</td>
+      <td align="center">0.20</td>
+      <td align="center">240.0</td>
+    </tr>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">5</td>
+      <td align="center">0.37</td>
+      <td align="center">255.0</td>
+      <td align="center">0.65</td>
+      <td align="center">255.0</td>
+    </tr>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">6</td>
+      <td align="center">1.70</td>
+      <td align="center">270.0</td>
+      <td align="center">1.22</td>
+      <td align="center">270.0</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">3</td>
+      <td align="center">18.6</td>
+      <td align="center">64.99</td>
+      <td align="center">2.4</td>
+      <td align="center">64.99</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">4</td>
+      <td align="center">900.1</td>
+      <td align="center">69.99</td>
+      <td align="center">519.3</td>
+      <td align="center">65.39</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">5</td>
+      <td align="center">900.1</td>
+      <td align="center">79.99</td>
+      <td align="center">900.3</td>
+      <td align="center">65.43</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">6</td>
+      <td align="center">900.1</td>
+      <td align="center">90.0</td>
+      <td align="center">900.3</td>
+      <td align="center">83.04</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td align="center">3</td>
+      <td align="center">900.0</td>
+      <td align="center">59.99</td>
+      <td align="center">209.5</td>
+      <td align="center">60.0</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td align="center">4</td>
+      <td align="center">900.2</td>
+      <td align="center">44.99</td>
+      <td align="center">900.7</td>
+      <td align="center">57.49</td>
+    </tr>
+  </tbody>
+</table>
+
+Notice right away is how quickly the model becomes untractable (which is not a surprise). For example, adding one cast can substantially increase the solution time. 
+
+<table>
+    <thead>
+    <tr>
+      <th style="text-align: center;">SCIP</th>
+      <th style="text-align: center;">HiGHS</th>
+    </tr>
+    </thead>
+    <tbody>
+    <td> 
+        <img src="{{site.baseurl}}/assets/img/post1/gantt_chart_2_casts_6_charges_scip.png ">
+    </td>
+    <td> 
+        <img src="{{site.baseurl}}/assets/img/post1/gantt_chart_2_casts_6_charges_highs.png ">
+    </td>
+    </tbody>
+</table>
+
 
 
 ### Conclusions
