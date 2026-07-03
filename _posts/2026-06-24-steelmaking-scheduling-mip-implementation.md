@@ -6,15 +6,15 @@ mermaid: true
 
 ## Introduction
 
-A tricky aspect within the field operations research is reproducing the work of other researchers. One of the biggest problems is that the source code and data are rarely provided (I am part of this -- but for reasons beyond my control). It is a good learning opporttunity, but demands significant effort.
+A tricky aspect within the field of operations research is reproducing the work of other researchers. One of the biggest obstacles is that source code is rarely provided (I am part of this problem -- though for confidentiality reasons beyond my control). While it serves as an excellent learning opportunity, reproduction demands significant effort.
 
-To explore this, I will consider a recent paper from steelmaking-continuous-casting (SCC) literature:
+To explore this, I will consider a recent paper from the steelmaking-continuous-casting (SCC) literature:
 
-* Juntaek Hong, Kyungduk Moon, Kangbok Lee, Kwansoo Lee & Michael L. Pinedo (2022) *An iterated greedy matheuristic for scheduling in steelmaking-continuous casting process*, International Journal of Production Research, 60:2, 623-643, DOI: 10.1080/00207543.2021.1975839
+* Juntaek Hong, Kyungduk Moon, Kangbok Lee, Kwansoo Lee & Michael L. Pinedo (2022) An iterated greedy matheuristic for scheduling in steelmaking-continuous casting process, International Journal of Production Research, 60:2, 623-643, DOI: 10.1080/00207543.2021.1975839
 
-My goal is not to reproduce their results exactly or verify their clams, rather illustrate the effort and pitfalls of reproducing literature models. In the future, I want to integrate such model with ladle dispatching decisions -- as a way to answer some questions from my research that I still want to investigate. Moreover, I am restricting myself to use open-source solvers, also as a way to understand how competitive they are for the SCC problem.
+My goal is not to reproduce their results exactly or verify their claims, but rather to illustrate the effort and pitfalls of reproducing literature models. In the future, I want to integrate this model with ladle dispatching decisions to answer a few lingering questions from my own research. Moreover, I am restricting myself to open-source solvers to evaluate how competitive they are when tackling the SCC problem.
 
-In this first part of the series, I will share some tips and the results from implementing a MIP model described in an academic paper. The full source code is available in this [github repository](https://github.com/vicrsp/steel-opt).
+In this first part of the series, I will share some practical tips and the results of implementing a MIP model described in an academic paper. The full source code is available in this [github repository](https://github.com/vicrsp/steel-opt).
 
 ---
 
@@ -82,15 +82,15 @@ A particularity of the SCC scheduling problem is that heats in a cast must be pr
 
 ### Implementation
 
-Papers tipically start defining a mathematical description of the problem: sets, parameters, decision variables, constraints and objectives. Implementation is usually straightforward from description using any modeling language. I personally became quite comfortable with `pyomo`, since it does not bind me to a specific solver interface. Of course, it adds an overhead each time an instance is created and miss some advanced features usually available in the solver's native interface. 
+Academic papers typically begin by establishing a mathematical description of the problem: sets, parameters, decision variables, constraints, and objectives. Implementation is usually straightforward from this description using any modeling language. I personally prefer `pyomo` because it does not bind me to a specific solver interface. Of course, it does add an overhead each time an instance is built, and it lacks some advanced features available in a solver's native interface.
 
-In the following sub-sections I share some insights gathered during the implementation. 
+In the following subsections, I share a few insights gathered during the implementation.
 
 #### Input data structure
 
 Before implementing the mathematical model, I like to create a consistent data model that is easy to serialize in a text file (JSON, YAML, etc.) and represents the problem's structure. `pydantic` is very interesting for this step, especially because python does not strongly enforce types.
 
-Below is an example used for implementing the SCC problem. First, notice that there is a clear connection to the actual notation and parameters used in the manuscript. Moreover, the data transformation logic is contained within the data classes. Why is this important? This seggregates data pre-processing from modeling logic, making each part easier to test and maintain individually. This prevents mixing data processing logic with mathematical expressions, for example.
+Below is an example used for implementing the SCC problem. Notice that there is a clear connection to the actual notation and parameters used in the manuscript. Moreover, the data transformation logic is neatly contained within the data classes. This segregates data preprocessing from modeling logic, making each part easier to test and maintain individually while preventing the mixing of data processing with mathematical expressions.
 
 ```python
 from pydantic import BaseModel
@@ -120,11 +120,11 @@ class SCCData(BaseModel):
 
 #### Working with pyomo Sets
 
-A `pyomo` feature that I particularly enjoy is to define and use sets for creating the model. For me, the hardest part is actually understanding and getting familiar the mathematical notation. Using set notation is quite handy in translating a mathematical expession into python code. I will use Equation 4 from the paper:
+A `pyomo` feature that I particularly enjoy is using sets to construct the model. For me, the hardest part of implementation is getting comfortable with the paper's mathematical notation, and utilizing set notation is quite handy for translating a mathematical expression into Python code. Take Equation 4 from the paper as an example:
 
 $$X_{kk^′l} + X_{k^′kl} \leq 1 - (Y_{ikl} - Y_{ik^′l}), \:  \forall k, k^′ \in \Omega, k \neq k^′,  l \in \mathcal{S}_k \cap \mathcal{S}_{k′} , i \in M_l$$
 
-It is hard to get lost into the notation and repeat the same code over and over, so I like to separate the sets from the mathematical expressions to keep the code cleaner. Moreover, it is also possible to reuse the same set for creating similar constraints (in this example, Equation 3):
+To avoid getting lost in the notation and repeating code, I isolate the sets from the mathematical expressions to keep things clean. This also allows me to reuse the exact same set to build similar constraints (such as Equation 3 in this example):
 
 ```python
 # set definition for Equations (3) and (4)
@@ -162,21 +162,167 @@ model.constraint4 = pyo.Constraint(
 
 ```
 
-Of course, this is one approach and I am pretty sure there are more efficient ones. As a key takeaway, using a modeling framework that supports working with sets should be leveraged in this task. Pyomo is very good at this once you truly understand it.
+While other efficient approaches certainly exist, a key takeaway here is that a modeling framework supporting native set operations should be heavily leveraged. Pyomo handles this beautifully once you grasp its syntax.
 
 ### Validation
 
-I usually can implement an initial version of the model very fast -- specially with the aid of AI coding assitants. However, the difficult part is 
+I usually can implement an initial version of the model very fast -- specially with AI coding assitants. However, it is often wrong or infeasible. Hence, I start with a small valid instance based on information present on the manuscript for validation. For scheduling problems, I find Gantt charts especially useful for validation model outputs. An example is displayed below, considering a small scenario with 2 casts, 10 heats, 3 stages and 2 machines per stage. It is possible to see that the stages are in order, casts are continuous, and that waiting and transportation times are also consistent. From the results, it is possible to confirm that the implementation is correct.
 
-<img src="{{site.baseurl}}/assets/img/2026-06-24-gantt_chart_validation.png">
+<img src="{{site.baseurl}}/assets/img/post1/gantt_chart_validation.png">
+
+I also xperimented with unit testing the model implementation, which is something that had been on my wind for some time. However, it became evident quite early that comprehensive testing (especially for asserting mathematical expressions) would require much more effort than what I wanted. Therefore, I kept it simple: I only ensured that the correct number of variables and constraints were added to the model. This doesn't guarantee that the outputs are correct, but allows to quickly catch basic modeling mistakes. Ideally, the next step was to ensure that all the equations were correct (objectives and constraints) after initializing the model with a valid solution. I think unit testing optimization mdoels is a very interesting topic on its own, maybe I will dig more into this later.
 
 ### Results
 
-It is not my goal to benchmark the model performance, but I wanted to check the difference in the instances difficulty as the size grows.
+While my primary goal isn't to benchmark model performance, I did want to see how well open-source solvers scale with instance size. Using the same plant configuration described above, I generated small and medium synthetic instances based on the parameters provided by the authors (they are available for download here as LP files). The termination criteria were set to a 0.01% optimality gap or a 15-minute runtime limit. The primary metrics are summarized in the table below.
 
+While my primary goal isn't to benchmark model performance, I did want to see how well open-source solvers scale with instance size. Using the same plant configuration described above, I generated small and medium synthetic instances based on the parameters provided by the authors (they can be downloaded <a href="{{site.baseurl}}/assets/data/post1/instances_lp.zip" download="instances_lp">here</a> as LP files). The termination criteria were set to a 0.01% optimality gap or a 15-minute runtime limit. The primary metrics are summarized in the table below.
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="2" style="text-align: center;">Problem Instance</th>
+      <th colspan="2" style="text-align: center;">HiGHS</th>
+      <th colspan="2" style="text-align: center;">SCIP</th>
+    </tr>
+    <tr>
+      <th style="text-align: center;">Casts</th>
+      <th style="text-align: center;">Heats</th>
+      <th style="text-align: center;">Time (s)</th>
+      <th style="text-align: center;">Obj Value</th>
+      <th style="text-align: center;">Time (s)</th>
+      <th style="text-align: center;">Obj Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">3</td>
+      <td align="center">0.05</td>
+      <td align="center">225.0</td>
+      <td align="center">0.13</td>
+      <td align="center">225.0</td>
+    </tr>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">4</td>
+      <td align="center">0.13</td>
+      <td align="center">240.0</td>
+      <td align="center">0.20</td>
+      <td align="center">240.0</td>
+    </tr>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">5</td>
+      <td align="center">0.37</td>
+      <td align="center">255.0</td>
+      <td align="center">0.65</td>
+      <td align="center">255.0</td>
+    </tr>
+    <tr>
+      <td align="center">1</td>
+      <td align="center">6</td>
+      <td align="center">1.70</td>
+      <td align="center">270.0</td>
+      <td align="center">1.22</td>
+      <td align="center">270.0</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">3</td>
+      <td align="center">18.6</td>
+      <td align="center">64.99</td>
+      <td align="center">2.4</td>
+      <td align="center">64.99</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">4</td>
+      <td align="center">900.1</td>
+      <td align="center">69.99</td>
+      <td align="center">519.3</td>
+      <td align="center">65.39</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">5</td>
+      <td align="center">900.1</td>
+      <td align="center">79.99</td>
+      <td align="center">900.3</td>
+      <td align="center">65.43</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td align="center">6</td>
+      <td align="center">900.1</td>
+      <td align="center">90.0</td>
+      <td align="center">900.3</td>
+      <td align="center">83.04</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td align="center">3</td>
+      <td align="center">900.0</td>
+      <td align="center">59.99</td>
+      <td align="center">209.5</td>
+      <td align="center">60.0</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td align="center">4</td>
+      <td align="center">900.2</td>
+      <td align="center">44.99</td>
+      <td align="center">900.7</td>
+      <td align="center">57.49</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td align="center">5</td>
+      <td align="center">900.4</td>
+      <td align="center">64.99</td>
+      <td align="center">900.2</td>
+      <td align="center">52.5</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td align="center">6</td>
+      <td align="center">900.3</td>
+      <td align="center">72.49</td>
+      <td align="center">901.0</td>
+      <td align="center">82.47</td>
+    </tr>
+  </tbody>
+</table>
+
+What stands out immediately is how quickly the model becomes intractable (which isn't a surprise). We can also see that while both solvers yield similar outcomes, one may reach a slightly better solution than the other depending on the specific instance. Of course, this isolated experiment isn't enough to claim overall superiority for either solver -- but that was not the objective anyways.
+
+However, one characteristic of this model is its high degree of symmetry. Take the instance with 3 casts and 3 charges: both solvers discover the exact same objective value, but HiGHS is unable to prove optimality within the 15-minute time limit. Examining the Gantt charts for these solutions reveals the extent of this behavior: delays match closely, but the casts finish in a completely different order, yielding an identical overall completion time (makespan).
+
+<table>
+    <thead>
+    <tr>
+      <th style="text-align: center;">SCIP</th>
+      <th style="text-align: center;">HiGHS</th>
+    </tr>
+    </thead>
+    <tbody>
+    <td> 
+        <img src="{{site.baseurl}}/assets/img/post1/gantt_chart_3_casts_3_charges_scip.png ">
+    </td>
+    <td> 
+        <img src="{{site.baseurl}}/assets/img/post1/gantt_chart_3_casts_3_charges_highs.png ">
+    </td>
+    </tbody>
+</table>
+
+I haven't found much literature exploiting this specific symmetry to optimize exact SCC solution performance (perhaps I just haven't looked hard enough), though it has been studied extensively for generic scheduling formulations. Most authors bypass exact methods entirely and jump straight to heuristics when tackling this problem. Yet, there may still be a valuable opportunity to strengthen existing formulations and leverage recent performance leaps in MILP solvers.
+
+Ultimately, optimality might not even be vital for practical operations. Real-world parameters are naturally uncertain, and solutions close to the theoretical optimum often function identically in practice.
 
 ### Conclusions
 
-The model works as described. however there are a few gaps that require some troubleshooting, such as determining tight Big-M coefficients. It is not impossible to define them after truly understanding the mathematical model, but this aspect could be more explicit in the manuscript. Anyways, this is only a big issue for someone attempting to solve large problem instances
+The model works exactly as described in the paper. However, there are a few practical gaps that require careful troubleshooting, such as calculating tight Big-M coefficients. While you can deduce these parameters once you understand the mathematical expressions, explicitly stating them in the manuscript would save a lot of time. 
 
-As a side note, something that I want to attempt in a few years is to reproduce one of my own papers. 
+Moreover, the high degree of symmetry present in the continuous casting problem means that exact solvers quickly hit a wall, spending valuable time trying to prove theoretical optimality for schedules that look almost identical in practice.
+
+Because seeking exact optimality becomes intractable so quickly, practical applications almost always rely on alternative solution strategies. In the next post, I will share the implementation of the iterated greedy matheuristic proposed by the authors. We will see how combining heuristic search with localized mathematical programming allows us to break through these tractability limits—and bring us one step closer to integrating ladle dispatching decisions!
